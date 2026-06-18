@@ -1,0 +1,4 @@
+[0m[[0m[31merror[0m] [0m[0m/home/rafael/Documentos/0Paradigmas de p./Recuperatorios/Lab2/parcial2-skeleton/parcial2/src/main/scala/Formatters.scala:51:9: not found: value header[0m
+[0m[[0m[31merror[0m] [0m[0m     s"$header\n$groups"[0m
+[0m[[0m[31merror[0m] [0m[0m        ^[0m
+[0m[[0m[31merror[0m] [0m[0mone error found[0m
