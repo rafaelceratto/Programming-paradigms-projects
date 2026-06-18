@@ -31,7 +31,12 @@ object Formatters {
    *   Si no se detectaron entidades, mostrar un mensaje indicándolo.
    */
   def formatNERResult(postTitle: String, entities: List[NamedEntity]): String = {
-    ???
+    if(entities.isEmpty){
+      s"Post: $postTitle\n(sin entidades encontradas)"
+    }else{
+      s"Post: $postTitle\nEntidades detectadas:\n${entities.map(_.describe).mkString("\n")}"
+    }// sin el map al _.describe me devolveria algo como Person@1dsa2
+    //cuando aplico el map y el mkString me va a devolver [Person] Martin Odersky
   }
 
   /**
@@ -51,6 +56,6 @@ object Formatters {
    *     University: 2
    */
   def formatEntityStats(counts: Map[String, Int]): String = {
-    ???
+    s"=== Estadísticas de entidades ===\n${counts.toList.sortBy(_._2).reverse.map{case(tipo,cantidad) => s"$tipo: $cantidad"}.mkString("\n")}"
   }
 }

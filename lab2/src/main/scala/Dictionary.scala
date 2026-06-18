@@ -1,8 +1,7 @@
-import scala.io.Source
 // =====================================================================
 // Ejercicio 2: Cargar diccionarios de entidades
 // =====================================================================
-
+import scala.io.Source
 /**
  * Responsable de cargar colecciones de entidades nombradas desde archivos.
  *
@@ -39,21 +38,19 @@ object Dictionary {
    *
    */
   def loadFromFile(filePath: String, entityType: String): List[NamedEntity] = {
-    val ejecuteDict = Source.fromFile(filePath)  //abro el archivo, segun el path que le pase (por ej data/people.txt)
-    .getLines().map{ line =>       //con .getLines() obtengo las lineas del path, luego con map
-                                  //agarro cada string de getLines, y digo ¿Que objeto tengo que crear?       
-      entityType match {          //entonces aca uso el match, que mira el string, evalua que clase es y lo pone en la correcta
-        
-        case "Person" => new Person(line)
-        case "ProgrammingLanguage" => new ProgrammingLanguage(line)
-        case "Organization" => new Organization(line)
-        case "Place" => new Place(line)
-        case "University" => new University(line)
-      } 
-    }.toList //Paso todo lo que hice a una lista
-      
-    source.close() //cierro el archivo por las dudas 
-    ejecuteDict //devuelvo la lista            
+    val source = Source.fromFile(filePath)
+    val checkEntidad : String => NamedEntity = entityType match{
+        case "Person" => (nombre: String) => new Person(nombre)
+        case "University" => (nombre: String) => new University(nombre)
+        case "ProgrammingLanguage" => (nombre: String) => new ProgrammingLanguage(nombre)
+        case "Organization" => (nombre: String) => new Organization(nombre)
+        case "Place" => (nombre: String) => new Place(nombre)
+        case _ =>  throw new IllegalArgumentException(s"Tipo desconocido: $entityType") //Excepcion por si es otra entrada en entityType
+      }
+    val listEntity = source.getLines().map{ tE=> checkEntidad(tE)}.toList   //getLines leo lineas del archivo
+    //con el map transformo las lineas, y con el toList las paso a una lista
+    source.close()
+    listEntity
   }
 
   /**
@@ -64,12 +61,11 @@ object Dictionary {
    * TODO (Ejercicio 2): Implementar este método.
    *
    */
-  def loadAll(): List[NamedEntity] = {
-    
-    loadFromFile("data/people.txt", "Person") :::     // ::: es para concatenar las listas
-    loadFromFile("data/languages.txt", "ProgrammingLanguage") :::
-    loadFromFile("data/organizations.txt", "Organization") :::
-    loadFromFile("data/places.txt", "Place") :::
-    loadFromFile("data/universities.txt", "University")    
+  def loadAll(): List[NamedEntity] = { 
+    loadFromFile("data/languages.txt", "ProgrammingLanguage") :::  // ::: operador para concatenar listas
+      loadFromFile("data/organizations.txt", "Organization") :::
+        loadFromFile("data/people.txt", "Person") :::
+          loadFromFile("data/places.txt", "Place") :::
+            loadFromFile("data/universities.txt", "University")
   }
 }

@@ -35,14 +35,8 @@ object Analyzer {
    *                  )
    */
   def detectEntities(text: String, dictionary: List[NamedEntity]): List[NamedEntity] = {
-    
-    val resultado = dictionary.filter(entidad => text.contains(entidad.text)) 
-    //como tengo que devolver una List[NamedEntity], trabajo directamente sobre 
-    //dictionary que tiene el mismo formato, y filtro usando contains, que es una funcion
-    //que me detecta si alguna frase de mi string es verdadera o no con lo que estoy comparando
-    //en este caso comparo con el diccionario, que tiene otro formato (NamedEntity), entonces
-    //lo cambio a formato text(String), para comparar 2 cosas iguales usando .text  
-    resultado
+    dictionary.filter{ tmp => text.contains(tmp.text)} //el text dentro del contains es el que esta
+    //en NamedEntity.scala!! es para chequear que entidad es
   }
 
   /**
@@ -67,6 +61,6 @@ object Analyzer {
    *                 )
    */
   def countByType(entities: List[NamedEntity]): Map[String, Int] = {
-    ???
+    entities.groupBy(entidad => entidad.entityType).mapValues(list => list.length).toMap
   }
 }

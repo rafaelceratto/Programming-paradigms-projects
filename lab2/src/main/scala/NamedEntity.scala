@@ -10,7 +10,7 @@
  *
  * @param text el texto tal como aparece en el corpus
  */
-abstract class NamedEntity(val text: String) {   //claseNamedEntity recibe un string
+abstract class NamedEntity(val text: String) {
 
   /**
    * Retorna el tipo de la entidad como String.
@@ -29,30 +29,6 @@ abstract class NamedEntity(val text: String) {   //claseNamedEntity recibe un st
   def describe: String = s"[$entityType] $text"
 }
 
-class Person(text: String) extends NamedEntity(text) {
-  def entityType: String = "Person"
-}
-
-class Organization(text: String) extends NamedEntity(text) {
-  def entityType: String = "Organization"
-}
-
-class University(text: String) extends Organization(text) {
-  override def entityType: String = "University"
-}
-
-class Place(text: String) extends NamedEntity(text) {
-  def entityType: String = "Place"
-}
-
-class Technology(text: String) extends NamedEntity(text) {
-  def entityType: String = "Technology"
-}
-
-class ProgrammingLanguage(text: String) extends Technology(text) {
-  override def entityType: String = "ProgrammingLanguage"
-}
-
 // =====================================================================
 // TODO (Ejercicio 1): Completar la jerarquía de entidades
 //
@@ -68,18 +44,39 @@ class ProgrammingLanguage(text: String) extends Technology(text) {
 //   └── Technology
 //       └── ProgrammingLanguage
 //
+
+class Person(text: String) extends NamedEntity(text){
+  def entityType: String = "Person"
+}
+
+class Organization(text: String) extends NamedEntity(text){
+  def entityType: String = "Organization"
+}
+
+class University(text: String) extends Organization(text){
+  override def entityType: String = "University"
+}
+
+class Place(text: String) extends NamedEntity(text){
+  def entityType: String = "Place"
+}
+
+class Technology(text: String) extends NamedEntity(text){
+  def entityType: String = "Technology"
+}
+
+class ProgrammingLanguage(text: String) extends Technology(text){
+  override def entityType: String = "ProgrammingLanguage"
+}
+
+
 // Luego de implementar las clases, este código debe compilar:
 //
-//val entities: List[NamedEntity] = List(
-// new Person("Alan Turing"),
-// new University("MIT"),
-// new ProgrammingLanguage("Scala"),
-//new Place("San Francisco")
-//)
-//entities.foreach(e => println(e.describe))
+//   val entities: List[NamedEntity] = List(
+//     new Person("Alan Turing"),
+//     new University("MIT"),
+//     new ProgrammingLanguage("Scala"),
+//     new Place("San Francisco")
+//   )
+//   entities.foreach(e => println(e.describe))
 // =====================================================================
-//FUncionamiento chequeado con interprete (poniendo scala en la terminal)
-//[Person] Alan Turing
-//[University] MIT
-//[ProgrammingLanguage] Scala
-//[Place] San Francisco
